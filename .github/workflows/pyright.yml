@@ -1,0 +1,23 @@
+name: pyright
+
+on: [push]
+
+jobs:
+  pyright:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up python
+        uses: ./.github/actions/python_setup
+      - name: set up poetry
+        uses: ./.github/actions/poetry_setup
+      - name: Use Node.js
+        uses: actions/setup-node@v3.2.0
+        with:
+          node-version: 16.x
+      - name: Install pyright
+        run: npm install --global pyright
+      - name: Lint with pyright
+        run: |
+          source .venv/bin/activate
+          pyright
