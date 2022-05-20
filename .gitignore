@@ -145,3 +145,6 @@ Thumbs.db
 # log
 *.log.*
 *.log
+
+# bash_history
+.docker_bash_history

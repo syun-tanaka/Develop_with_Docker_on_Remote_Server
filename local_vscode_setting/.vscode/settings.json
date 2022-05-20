@@ -1,0 +1,11 @@
+{
+  "docker.host": "tcp://localhost:*****",
+  "sync-rsync.sites": [
+    {
+      "name": "devcontainer_sample",
+      "localPath": "${workspaceFolder}",
+      "remotePath": "{User}@{HostName}:/*****/local_vscode_setting"
+    }
+  ],
+  "sync-rsync.include": [".vscode"],
+}

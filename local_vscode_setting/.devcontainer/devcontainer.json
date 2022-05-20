@@ -1,14 +1,20 @@
 // ref. https://github.com/Microsoft/vscode-remote-try-python
 {
-  "name": "Python Repository Simple",
-  // Use docker-compose.extend.yml to run a command that keeps the container running.
-  "dockerComposeFile": ["../docker-compose.yml"],
-  "service": "python_repository_simple",
-  "workspaceFolder": "/project",
-  "shutdownAction": "stopCompose",
-  // Comment out the next line to run as root instead. Linux users,
-  // update Dockerfile with your user's UID/GID if not 1000.
-  "remoteUser": "vscode",
+  "name": "devcontainer_sample",
+  "workspaceFolder": "/project/",
+  "workspaceMount": "source=/*****/Develop_with_Docker_on_Remote_Server/,target=/project/,type=bind,consistency=cached",
+  "mounts": [
+    "source=/*****/.ssh,target=/root/.ssh,type=bind,consistency=cached",
+    "source=/*****/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached"
+  ],
+  "dockerFile": "Dockerfile",
+  "runArgs": [
+    "--gpus",
+    "all",
+    "--shm-size=10G",
+    "--cpus=16"
+  ],
+  "shutdownAction": "none",
   // Use 'settings' to set *default* container specific settings.json values on container create.
   // You can edit these settings after create using File > Preferences > Settings > Remote.
   "settings": {
@@ -20,14 +26,19 @@
         "path": "/bin/bash"
       }
     },
-    "python.pythonPath": "/usr/local/bin/python",
+    "python.defaultInterpreterPath": "/opt/conda/bin/python",
     "python.linting.pylintEnabled": false,
     "python.linting.enabled": true,
     "python.linting.flake8Enabled": true,
-    "python.linting.flake8Args": ["--config=.flake8"],
+    "python.linting.flake8Args": [
+      "--config=.flake8"
+    ],
     "python.linting.lintOnSave": true,
     "python.formatting.provider": "black",
-    "python.formatting.blackArgs": ["--line-length", "100"],
+    "python.formatting.blackArgs": [
+      "--line-length",
+      "100"
+    ],
     "python.testing.unittestEnabled": false,
     "python.testing.nosetestsEnabled": false,
     "python.testing.pytestEnabled": true,
@@ -52,17 +63,29 @@
       "editor.tabSize": 2
     },
     "autoDocstring.docstringFormat": "numpy",
-    "autoDocstring.startOnNewLine": true
+    "autoDocstring.startOnNewLine": true,
+    "files.exclude": {
+      "**/.docker_bash_history*": true,
+      "**/.Trash-0": true,
+      "**/.ipynb_checkpoints": true
+    },
+    "files.watcherExclude": {
+      "**/datasets/**": true
+    }
   },
   "extensions": [
     "ms-python.python",
     "esbenp.prettier-vscode",
     "njpwerner.autodocstring",
-    "eamodio.gitlens",
     "ms-python.vscode-pylance",
-    "VisualStudioExptTeam.vscodeintellicode",
     "exiasr.hadolint",
-    "bungcip.better-toml"
+    "bungcip.better-toml",
+    "VisualStudioExptTeam.vscodeintellicode",
+    "formulahendry.terminal",
+    "ionutvmi.path-autocomplete",
+    "mhutchie.git-graph",
+    "eamodio.gitlens",
+    "mechatroner.rainbow-csv"
   ],
-  "postStartCommand": "pip install -U pip && poetry self update && poetry install --no-interaction"
+  "postCreateCommand": "sh postCreateCommand.sh"
 }
