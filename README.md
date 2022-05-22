@@ -1,12 +1,11 @@
 # Develop_with_Docker_on_Remote_Server
 
-本リポジトリは リモートサーバー 上の Docker Container で開発を行うためのテンプレートリポジトリです
+本リポジトリは リモートサーバー 上の Docker Container で開発を行うためのリポジトリです
 devcontainer の設定をしていますので、VS Code と Docker、Git さえあれば各種開発用設定が行われた Python の開発環境が構築され、即時開発が可能です
-GitHub のリポジトリページの「Use this template」を押下して使用してください
 
 ## 内容
 
-- [devcontainer](https://code.visualstudio.com/docs/remote/containers)
+- [Remote-SSH / Remote-Containers](https://code.visualstudio.com/docs/remote/ssh#_open-a-folder-on-a-remote-ssh-host-in-a-container)
 - linter, formatter
   - [flake8](https://flake8.pycqa.org/en/latest/)
   - [black](https://black.readthedocs.io/en/stable/)
@@ -20,89 +19,86 @@ GitHub のリポジトリページの「Use this template」を押下して使�
 
 ### ローカルでの事前準備
 
-- Docker CLI インストール
 - VS Code インストール
-- VSCode の拡張機能のインストール
-  - Remote-Containers
-    - https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
-  - Sync-Rsync
-    - https://marketplace.visualstudio.com/items?itemName=vscode-ext.sync-rsync
 - リモートとの公開鍵認証を設定
-- リモート PC がプロキシ環境下に存在する場合、[プロキシーサーバー利用の設定](https://matsuand.github.io/docs.docker.jp.onthefly/network/proxy/#configure-the-docker-client)を参考に**ローカルマシンで**プロキシの設定を行う
 
 ### リモートでの事前準備
 
 - Docker or Rootless-Docker インストール
+  - ***Rootless-Docker の場合：`export DOCKER_HOST=...` を `.bashrc` の先頭（ `# If not running interactively, don't do anything` より前）に設定すること***
   - 必要であれば[NVIDIA Docker って今どうなってるの？ (20.09 版)](https://medium.com/nvidiajapan/nvidia-docker-%E3%81%A3%E3%81%A6%E4%BB%8A%E3%81%A9%E3%81%86%E3%81%AA%E3%81%A3%E3%81%A6%E3%82%8B%E3%81%AE-20-09-%E7%89%88-558fae883f44)を参考に NVIDIA Docker 環境を設定
-- 本リポジトリの clone
-- 以下を変更
+- リモートサーバー がプロキシ環境下に存在する場合、[プロキシーサーバー利用の設定](https://matsuand.github.io/docs.docker.jp.onthefly/network/proxy/#configure-the-docker-client)を参考にプロキシの設定を行う
+- 本リポジトリをクローン
+  - 必要であれば 本リポジトリの下に開発対象のリポジトリをクローン
 
-  - `.devcontainer/Dockerfile`
+### VSCode での事前準備
 
-    - `For root/non-root user`の一方をコメントアウト
-    - (Normal) Docker の場合:
-      マウントするディレクトリの uid に合わせて`USER_UID`を変更
+1. ローカルの VSCode
+    1. 拡張機能のインストール
+        - [Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
+        - [Project Manager](https://marketplace.visualstudio.com/items?itemName=alefragnani.project-manager)
+    1. Remote-SSH を用いて リモートサーバーへ接続
+        1. VSCodeの左端の `Remote Explorer` アイコンをクリック
+        1. `SSH TARGETS` の中から目的のサーバーを選択
+        1. （VSCode サーバーのインストールが行われるので しばらく待機）
 
-  - `.devcontainer/devcontainer.json`
+1. リモートサーバー上の VSCode
+    1. VSCode で本リポジトリのクローン先を開き、以下を変更する
+        - `.devcontainer/Dockerfile`
+          - `FROM` [nvcr.io/nvidia/pytorch:22.03-py3](https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/rel_22-03.html#rel_22-03)
+            - python3.8, CUDA, PyTorch, TensorBoard, jupyter-lab に加えて [DALI](https://developer.nvidia.com/dali), [RAPIDS](https://rapids.ai/), [TensorRT](https://pytorch.org/TensorRT/) などが含まれている docker image. サイズが大きいので GPU が必要なければ別の軽量な image に変更すべき
 
-    - `name`: 任意の名前
-    - `workspaceMount`
-      - `source=` リモートに clone したリポジトリの path
-    - `mounts`
-      - `source=` リモートの`.ssh`, `.gitconfig` の path
-      - `target={HOMEDIR}/.ssh (.gitconfig)`, ただし`HOMEDIR`は`Dockerfile`で設定したもの
-      - 必要であればデータディレクトリもマウントする
-    - `runArgs`
-      - [メモリ、CPU、GPU に対する実行時オプション](https://docs.docker.jp/v19.03/config/container/resource_constraints.html)を参考に設定
+          - `For root/non-root user` の一方をコメントアウト
+            - non-root user を使用する場合：
+            マウントするディレクトリの uid に合わせて `USER_UID` を変更
 
-  - `.vscode/settings.json`
-    - `docker.host`:
-      - (Normal) Docker の場合:
-        リモートのユーザー名とホスト名を用いて`ssh://{User}@{HostName}`
-      - Rootless Docker の場合:
-        任意のポート番号を用いて`tcp://localhost:{port}`
-    - `sync-rsync.sites`
-      - `name`: 任意の名前
-      - `remotePath`: `{User}@{HostName}:/path/to/local_vscode_setting`
+        - `.devcontainer/devcontainer.json`
 
-- 必要であれば以下も変更する
-  - main.py
-  - logging.conf
-    - `hoge` を使用するモジュール名に合わせる
-  - `README.md`
-  - `LICENSE`
+          - `name`: 任意の名前
+          - `workspaceMount`
+            - `source=` clone したリポジトリの 絶対 path
+          - `mounts`
+            - `source=` リモートの `.ssh`, `.gitconfig` の 絶対 path
+            - `target={HOMEDIR}/.ssh (.gitconfig)`, ただし `HOMEDIR` は `Dockerfile` で設定したもの
+            - 必要であればデータディレクトリもマウントする
+          - `runArgs`
+            - [メモリ、CPU、GPU に対する実行時オプション](https://docs.docker.jp/v19.03/config/container/resource_constraints.html)を参考に設定
+
+        - `postCreateCommand.sh`
+            - 必要なパッケージをインストール
+
+        - 自作パッケージの開発を行う場合は以下も変更
+          - main.py
+          - logging.conf
+            - `hoge` を使用するモジュール名に合わせる
+          - `README.md`
+          - `LICENSE`
+
+    1. Remote-Containers を用いて コンテナへ接続
+        1. VSCodeの左下の緑色のアイコンをクリック
+        1. 「Reopen in Container」をクリック
+        1. （docker image の build や container の生成が行われるので しばらく待機）
+
+1. コンテナ上の VSCode
+    1. 拡張機能のインストール
+        - オススメの拡張機能はインストールされているので その他開発に必要なものをお好みで
+    1. Project Manager を用いて プロジェクトを保存
+        1. VSCodeの左端の `PROJECT MANAGER` アイコンをクリック
+        1. 任意の名前でプロジェクトを save
 
 ## 開発手順
 
-1. Rootless Docker の場合
+### コンテナへの接続方法
 
-   1. リモートで`echo $DOCKER_HOST`を実行し、`unix://`を除いた`/path/to/docker.sock`をメモ
-   1. ローカルで以下を実行
-      ```bash
-      $ ssh -fNL localhost:{port}:{/path/to/docker.sock} {User}@{HostName}
-      ```
-      ただし`port`は`docker.host`に設定したポート番号、`/path/to/docker.sock`は先程メモした path
+1. ローカルで VSCode を起動
+1. VSCodeの左端の `PROJECT MANAGER` アイコンをクリック
+1. 目的のプロジェクトを選択
 
-1. (初回のみ) リモートの`local_vscode_setting/`をローカルにコピー
-   - 必要であればディレクトリ名を変更してもよい
-1. ローカルの`local_vscode_setting/`内で VSCode を起動
-1. 左下の緑色のアイコン -> 「Remote-Containersa: Reopen in Container」をクリック
-1. しばらく待つ
-   - 初回の場合、コンテナー image の取得や作成が行われる
-1. 起動したらコンテナでの開発可能
+### Dockerfile, devcontainer.json を変更した場合
 
-### `local_vscode_setting/`内のファイルを変更した場合 (Container の Rebuild)
-
-1. 左下の緑色のアイコン -> 「Remote-Containersa: Reopen Locally」をクリック
-1. (ローカルで) cmd + shift + P -> 「Sync-Rsync: Sync Remote to Local」を検索してクリック
-1. (ローカルで) 左下の緑色のアイコン -> 「Remote-Containersa: Reopen in Container」をクリック
-1. 左下の緑色のアイコン -> 「Remote-Containersa: Rebuild Container」をクリック
-
-## ユニットテスト実行
-
-```
-pytest
-```
+1. VSCodeでコンテナに接続した状態で 左下の緑色のアイコンをクリック
+1. 「Rebuild Container」をクリック
+1. （docker image の build や container の生成が行われるので しばらく待機）
 
 ## 参考
 
