@@ -34,11 +34,8 @@ ARG HOMEDIR=/$USER_NAME
 
 # For non-root user (Recommended for (Normal) Docker)
 # ARG USER_NAME=user
-# ARG USER_UID=1000
-# ARG USER_GID=$USER_UID
 # ARG HOMEDIR=/home/$USER_NAME
-# RUN groupadd --gid $USER_GID $USER_NAME \
-#     && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USER_NAME \
+# RUN useradd -s /bin/bash -m $USER_NAME \
 #     # Add sudo support for non-root user
 #     && mkdir -p /etc/sudoers.d \
 #     && echo $USER_NAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USER_NAME \

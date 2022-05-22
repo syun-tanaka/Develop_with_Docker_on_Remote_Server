@@ -49,8 +49,6 @@ devcontainer の設定をしていますので、VS Code と Docker、Git さえ
             - python3.8, CUDA, PyTorch, TensorBoard, jupyter-lab に加えて [DALI](https://developer.nvidia.com/dali), [RAPIDS](https://rapids.ai/), [TensorRT](https://pytorch.org/TensorRT/) などが含まれている docker image. サイズが大きいので GPU が必要なければ別の軽量な image に変更すべき
 
           - `For root/non-root user` の一方をコメントアウト
-            - non-root user を使用する場合：
-            マウントするディレクトリの uid に合わせて `USER_UID` を変更
 
         - `.devcontainer/devcontainer.json`
 
