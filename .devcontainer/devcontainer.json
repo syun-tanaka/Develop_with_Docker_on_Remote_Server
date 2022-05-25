@@ -1,10 +1,10 @@
 {
   "name": "devcontainer_sample",
   "workspaceFolder": "/project/",
-  "workspaceMount": "source=/*****/Develop_with_Docker_on_Remote_Server/,target=/project/,type=bind,consistency=cached",
+  "workspaceMount": "source=${localWorkspaceFolder},target=${containerWorkspaceFolder},type=bind,consistency=cached",
   "mounts": [
-    "source=/*****/.ssh,target=/root/.ssh,type=bind,consistency=cached",
-    "source=/*****/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached"
+    "source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached"
   ],
   "dockerFile": "Dockerfile",
   "runArgs": [

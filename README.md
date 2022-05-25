@@ -53,11 +53,9 @@ devcontainer の設定をしていますので、VS Code と Docker、Git さえ
         - `.devcontainer/devcontainer.json`
 
           - `name`: 任意の名前
-          - `workspaceMount`
-            - `source=` clone したリポジトリの 絶対 path
           - `mounts`
-            - `source=` リモートの `.ssh`, `.gitconfig` の 絶対 path
-            - `target={HOMEDIR}/.ssh (.gitconfig)`, ただし `HOMEDIR` は `Dockerfile` で設定したもの
+            - non-root user の場合：`target={HOMEDIR}/.ssh (.gitconfig)` に変更
+              （ `HOMEDIR` は `Dockerfile` で設定されているもの）
             - 必要であればデータディレクトリもマウントする
           - `runArgs`
             - [メモリ、CPU、GPU に対する実行時オプション](https://docs.docker.jp/v19.03/config/container/resource_constraints.html)を参考に設定
