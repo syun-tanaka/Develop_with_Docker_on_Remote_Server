@@ -25,8 +25,9 @@ devcontainer の設定をしていますので、VS Code と Docker、Git さえ
 ### リモートでの事前準備
 
 - Docker or Rootless-Docker インストール
-  - ***Rootless-Docker の場合：`export DOCKER_HOST=...` を `.bashrc` の先頭（ `# If not running interactively, don't do anything` より前）に設定すること***
   - 必要であれば[NVIDIA Docker って今どうなってるの？ (20.09 版)](https://medium.com/nvidiajapan/nvidia-docker-%E3%81%A3%E3%81%A6%E4%BB%8A%E3%81%A9%E3%81%86%E3%81%AA%E3%81%A3%E3%81%A6%E3%82%8B%E3%81%AE-20-09-%E7%89%88-558fae883f44)を参考に NVIDIA Docker 環境を設定
+> **Warning**
+> Rootless-Docker の場合：`export DOCKER_HOST=...` を `.bashrc` の先頭 （ `# If not running interactively, don't do anything` より前）に設定すること
 - リモートサーバー がプロキシ環境下に存在する場合、[プロキシーサーバー利用の設定](https://matsuand.github.io/docs.docker.jp.onthefly/network/proxy/#configure-the-docker-client)を参考にプロキシの設定を行う
 - 本リポジトリをクローン
   - 必要であれば 本リポジトリの下に開発対象のリポジトリをクローン
@@ -78,6 +79,7 @@ devcontainer の設定をしていますので、VS Code と Docker、Git さえ
 1. コンテナ上の VSCode
     1. 拡張機能のインストール
         - オススメの拡張機能はインストールされているので その他開発に必要なものをお好みで
+        - `.devcontainer/devcontainer.json`の`extensions`に追記することで次回以降自動でインストールされる
     1. Project Manager を用いて プロジェクトを保存
         1. VSCodeの左端の `PROJECT MANAGER` アイコンをクリック
         1. 任意の名前でプロジェクトを save
