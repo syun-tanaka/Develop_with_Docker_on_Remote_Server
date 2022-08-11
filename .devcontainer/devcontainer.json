@@ -45,6 +45,7 @@
     "python.jediEnabled": false,
     "python.languageServer": "Pylance",
     "python.analysis.typeCheckingMode": "basic",
+    "python.terminal.activateEnvironment": false,
     "vsintellicode.python.completionsEnabled": true,
     "vsintellicode.features.python.deepLearning": "enabled",
     "vsintellicode.modify.editor.suggestSelection": "enabled",
