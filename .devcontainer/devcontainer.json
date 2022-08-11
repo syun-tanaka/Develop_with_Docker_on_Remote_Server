@@ -85,7 +85,8 @@
     "ionutvmi.path-autocomplete",
     "mhutchie.git-graph",
     "eamodio.gitlens",
-    "mechatroner.rainbow-csv"
+    "mechatroner.rainbow-csv",
+    "JoeBerria.statusbarerror"
   ],
   "postCreateCommand": "sh postCreateCommand.sh"
 }
