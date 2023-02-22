@@ -20,6 +20,8 @@
     "files.eol": "\n",
     "files.insertFinalNewline": true,
     "files.trimTrailingWhitespace": true,
+    "jupyter.askForKernelRestart": false,
+    "jupyter.interactiveWindowMode": "perFile",
     "terminal.integrated.profiles.linux": {
       "bash": {
         "path": "/bin/bash"
