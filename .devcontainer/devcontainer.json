@@ -16,79 +16,83 @@
   "shutdownAction": "none",
   // Use 'settings' to set *default* container specific settings.json values on container create.
   // You can edit these settings after create using File > Preferences > Settings > Remote.
-  "settings": {
-    "files.eol": "\n",
-    "files.insertFinalNewline": true,
-    "files.trimTrailingWhitespace": true,
-    "jupyter.askForKernelRestart": false,
-    "jupyter.interactiveWindowMode": "perFile",
-    "terminal.integrated.profiles.linux": {
-      "bash": {
-        "path": "/bin/bash"
-      }
-    },
-    "python.defaultInterpreterPath": "/opt/conda/bin/python",
-    "python.linting.pylintEnabled": false,
-    "python.linting.enabled": true,
-    "python.linting.flake8Enabled": true,
-    "python.linting.flake8Args": [
-      "--config=.flake8"
-    ],
-    "python.linting.lintOnSave": true,
-    "python.formatting.provider": "black",
-    "python.formatting.blackArgs": [
-      "--line-length",
-      "100"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.nosetestsEnabled": false,
-    "python.testing.pytestEnabled": true,
-    "python.analysis.diagnosticMode": "workspace",
-    "python.jediEnabled": false,
-    "python.languageServer": "Pylance",
-    "python.analysis.typeCheckingMode": "basic",
-    "python.terminal.activateEnvironment": false,
-    "vsintellicode.python.completionsEnabled": true,
-    "vsintellicode.features.python.deepLearning": "enabled",
-    "vsintellicode.modify.editor.suggestSelection": "enabled",
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": true
-    },
-    "[python]": {
-      "editor.tabSize": 4
-    },
-    "[json]": {
-      "editor.tabSize": 2
-    },
-    "[yaml]": {
-      "editor.tabSize": 2
-    },
-    "autoDocstring.docstringFormat": "numpy",
-    "autoDocstring.startOnNewLine": true,
-    "files.exclude": {
-      "**/.docker_bash_history*": true,
-      "**/.Trash-0": true,
-      "**/.ipynb_checkpoints": true
-    },
-    "files.watcherExclude": {
-      "**/datasets/**": true
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "files.eol": "\n",
+        "files.insertFinalNewline": true,
+        "files.trimTrailingWhitespace": true,
+        "jupyter.askForKernelRestart": false,
+        "jupyter.interactiveWindowMode": "perFile",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash"
+          }
+        },
+        "python.defaultInterpreterPath": "/opt/conda/bin/python",
+        "python.linting.pylintEnabled": false,
+        "python.linting.enabled": true,
+        "python.linting.flake8Enabled": true,
+        "python.linting.flake8Args": [
+          "--config=.flake8"
+        ],
+        "python.linting.lintOnSave": true,
+        "python.formatting.provider": "black",
+        "python.formatting.blackArgs": [
+          "--line-length",
+          "100"
+        ],
+        "python.testing.unittestEnabled": false,
+        "python.testing.nosetestsEnabled": false,
+        "python.testing.pytestEnabled": true,
+        "python.analysis.diagnosticMode": "workspace",
+        "python.jediEnabled": false,
+        "python.languageServer": "Pylance",
+        "python.analysis.typeCheckingMode": "basic",
+        "python.terminal.activateEnvironment": false,
+        "vsintellicode.python.completionsEnabled": true,
+        "vsintellicode.features.python.deepLearning": "enabled",
+        "vsintellicode.modify.editor.suggestSelection": "enabled",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": true
+        },
+        "[python]": {
+          "editor.tabSize": 4
+        },
+        "[json]": {
+          "editor.tabSize": 2
+        },
+        "[yaml]": {
+          "editor.tabSize": 2
+        },
+        "autoDocstring.docstringFormat": "numpy",
+        "autoDocstring.startOnNewLine": true,
+        "files.exclude": {
+          "**/.docker_bash_history*": true,
+          "**/.Trash-0": true,
+          "**/.ipynb_checkpoints": true
+        },
+        "files.watcherExclude": {
+          "**/datasets/**": true
+        }
+      },
+      "extensions": [
+        "alefragnani.project-manager",
+        "ms-python.python",
+        "esbenp.prettier-vscode",
+        "njpwerner.autodocstring",
+        "ms-python.vscode-pylance",
+        "exiasr.hadolint",
+        "bungcip.better-toml",
+        "VisualStudioExptTeam.vscodeintellicode",
+        "ionutvmi.path-autocomplete",
+        "mhutchie.git-graph",
+        "eamodio.gitlens",
+        "mechatroner.rainbow-csv",
+        "JoeBerria.statusbarerror"
+      ]
     }
   },
-  "extensions": [
-    "alefragnani.project-manager",
-    "ms-python.python",
-    "esbenp.prettier-vscode",
-    "njpwerner.autodocstring",
-    "ms-python.vscode-pylance",
-    "exiasr.hadolint",
-    "bungcip.better-toml",
-    "VisualStudioExptTeam.vscodeintellicode",
-    "ionutvmi.path-autocomplete",
-    "mhutchie.git-graph",
-    "eamodio.gitlens",
-    "mechatroner.rainbow-csv",
-    "JoeBerria.statusbarerror"
-  ],
   "postCreateCommand": "sh postCreateCommand.sh"
 }
